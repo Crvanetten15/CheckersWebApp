@@ -1,5 +1,5 @@
 # Course-Project for G12 
-## Group Members Esmeralda, Tony and Connor 
+## Group Members Esmeralda, Tytionna and Connor 
 
 ## Project Objectives:
 
