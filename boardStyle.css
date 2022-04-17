@@ -1,0 +1,42 @@
+* {
+    margin: auto;
+}
+
+td  {
+    background-color: black;
+    width: 65px;
+    height: 65px;
+    text-align: center;
+}
+
+.empty {
+    background-color: aliceblue;
+}
+
+.black-piece {
+    width: 20px;
+    height: 20px;
+    padding: 12px;
+    background-color: red;
+    border: 1px solid white;
+    border-radius: 50px;
+}
+
+.white-piece {
+    width: 20px;
+    height: 20px;
+    padding: 12px;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 50px;
+}
+table {
+            background: #f8f8f8;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0;
+            box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
+        }
+
+
+

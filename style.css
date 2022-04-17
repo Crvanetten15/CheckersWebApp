@@ -62,31 +62,4 @@
 
         }
 
-td  {
-    background-color: darkslateblue;
-    width: 65px;
-    height: 65px;
-    text-align: center;
-}
 
-.empty {
-    background-color: aliceblue;
-}
-
-.black-piece {
-    width: 20px;
-    height: 20px;
-    padding: 12px;
-    background-color: black;
-    border: 1px solid white;
-    border-radius: 50px;
-}
-
-.white-piece {
-    width: 20px;
-    height: 20px;
-    padding: 12px;
-    background-color: white;
-    border: 1px solid darkslateblue;
-    border-radius: 50px;
-}
