@@ -39,4 +39,23 @@ table {
         }
 
 
+.ScoreBoard {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ScoreBoard-Red {
+    font-family: "Audiowide", sans-serif;
+    display: inline-block;
+    float: left;
+    padding-left: 15px;
+}
+.ScoreBoard-Black {
+    font-family: "Audiowide", sans-serif;
+    display: inline-block;
+    float: right;
+    padding-right: 15px;
+}
+
+
 
