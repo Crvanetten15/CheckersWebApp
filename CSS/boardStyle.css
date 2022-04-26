@@ -5,6 +5,7 @@
 body {
     background-image: url('../photos/img.png');
 }
+
 main {
     display: flex;
     flex-direction: column;
