@@ -3,7 +3,7 @@
 }
 
 body {
-    background-image: url('photos/img.png');
+    background-image: url('../photos/img.png');
 }
 main {
     display: flex;
@@ -21,6 +21,7 @@ div {
 .desktop {
     margin: 0;
     width: 100%;
+    font-family: 'Chango', cursive;
 }
 .scoreboard{
     margin: 0;
@@ -82,8 +83,8 @@ div {
 td {
     text-align: center;
     background-color: black;
-    width: 65px;
-    height: 65px;
+    width: 75px;
+    height: 75px;
 }
 
 .red-turn-text {
@@ -96,11 +97,12 @@ td {
     text-align: center;
     font-size: 55px;
     color: lightgray;
+
 }
 
 .black {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     padding: 12px;
     background-color: red;
     border: 1px solid white;
@@ -108,8 +110,8 @@ td {
 }
 
 .red {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     padding: 12px;
     background-color: white;
     border: 1px solid white;

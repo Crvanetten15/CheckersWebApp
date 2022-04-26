@@ -28,7 +28,7 @@ const blackTurntext = document.querySelectorAll(".black-turn-text");
 const divider = document.querySelector("#divider")
 
 // player properties
-let turn = true;
+let turn = false;
 let r_Score = 12;
 let b_Score = 12;
 let playerPieces;
