@@ -54,7 +54,7 @@ let currentSelect = {
 function givePiecesEventListeners() {
     if (turn) {
         for (let i = 0; i < redsPieces.length; i++) {
-
+            SearchforJump(redsPieces[i])
         }
     } else {
         for (let i = 0; i < blacksPieces.length; i++) {
@@ -65,9 +65,77 @@ function givePiecesEventListeners() {
 
 /*---------- Logic ----------*/
 
-function SearchforJump (){
+function AIpossibleMoves(AIcheck){
+    if (board[AIcheck.indexOfBoardPiece + 7] === null && cells[AIcheck.indexOfBoardPiece + 7].classList.contains("empty") !== true) {
+        AIcheck.BottomL = true;
+    }
+    if (board[AIcheck.indexOfBoardPiece + 9] === null && cells[AIcheck.indexOfBoardPiece + 9].classList.contains("empty") !== true) {
+        AIcheck.BottomR = true;
+    }
+    if (board[AIcheck.indexOfBoardPiece - 7] === null && cells[AIcheck.indexOfBoardPiece - 7].classList.contains("empty") !== true) {
+        AIcheck.TopR = true;
+    }
+    if (board[AIcheck.indexOfBoardPiece - 9] === null && cells[AIcheck.indexOfBoardPiece - 9].classList.contains("empty") !== true) {
+        AIcheck.TopL = true;
+    }
+    AIjmpMoves(AIcheck)
+
+    if(AIcheck.JmpBottomL == true){
+
+    }
+}
+
+
+function AIjmpMoves(AIcheck){
+
+    if (board[AIcheck.indexOfBoardPiece + 14] === null
+        && cells[AIcheck.indexOfBoardPiece + 14].classList.contains("empty") !== true
+        && board[AIcheck.indexOfBoardPiece + 7] >= 12) {
+        AIcheck.JmpBottomL = true;
+    }
+    if (board[AIcheck.indexOfBoardPiece + 18] === null
+        && cells[AIcheck.indexOfBoardPiece + 18].classList.contains("empty") !== true
+        && board[AIcheck.indexOfBoardPiece + 9] >= 12) {
+        AIcheck.JmpBottomR = true;
+    }
+    if (board[AIcheck.indexOfBoardPiece - 14] === null
+        && cells[AIcheck.indexOfBoardPiece - 14].classList.contains("empty") !== true
+        && board[AIcheck.indexOfBoardPiece - 7] >= 12) {
+        AIcheck.JmpTopR = true;
+    }
+    if (board[AIcheck.indexOfBoardPiece - 18] === null
+        && cells[AIcheck.indexOfBoardPiece - 18].classList.contains("empty") !== true
+        && board[AIcheck.indexOfBoardPiece - 9] >= 12) {
+        AIcheck.JmpTopL = true;
+    }
+
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // holds the length of the players piece count

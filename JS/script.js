@@ -23,13 +23,13 @@ let findPiece = function (pieceId) {
 const cells = document.querySelectorAll("td");
 let redsPieces = document.querySelectorAll("p");
 let blacksPieces = document.querySelectorAll("span")
-const redTurnText = document.querySelectorAll(".red-turn-text");
+const redTurnText = document.querySelectorAll(".red-turn-text"); //is edit the topic colors to who goes
 const blackTurntext = document.querySelectorAll(".black-turn-text");
-const divider = document.querySelector("#divider")
+const divider = document.querySelector("#divider") //does nothing holds space
 
 // player properties
 let turn = false;
-let r_Score = 12;
+let r_Score = 12; //everytime minus add obj or visual or blah blah
 let b_Score = 12;
 let playerPieces;
 
@@ -110,6 +110,8 @@ function resetcurrentSelectProperties() {
 
 // gets ID and index of the board cell its on
 function getcurrentSelect() {
+    console.log(cells);
+    console.log(redsPieces);
     currentSelect.pieceId = parseInt(event.target.id);
     currentSelect.indexOfBoardPiece = findPiece(currentSelect.pieceId);
     isPieceKing();
@@ -288,12 +290,9 @@ function removePreviousChecks(previousSelect){
 
 // makes the move that was clicked
 function makeMove(number) {
-    console.log("- - - - - - - -  - - - - - - - ")
     removePreviousChecks(currentSelect) //TODO; here
     document.getElementById(currentSelect.pieceId).remove();
     cells[currentSelect.indexOfBoardPiece].innerHTML = "";
-    for (let i = 0; i < 64; i++){console.log(cells[i].innerHTML)}
-    console.log(cells);
     if (turn) {
         if (currentSelect.isKing) {
             cells[currentSelect.indexOfBoardPiece + number].innerHTML = `<p class="red king" id="${currentSelect.pieceId}"></p>`;
@@ -334,11 +333,12 @@ function changeData(indexOfBoardPiece, modifiedIndex, removePiece) {
         board[removePiece] = null;
         if (turn && currentSelect.pieceId < 12) {
             cells[removePiece].innerHTML = "";
-            b_Score--
+            b_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+
         }
         if (turn === false && currentSelect.pieceId >= 12) {
             cells[removePiece].innerHTML = "";
-            r_Score--
+            r_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
         }
     }
     resetcurrentSelectProperties();
@@ -380,7 +380,7 @@ function checkForWin() {
     changePlayer();
 }
 
-// Switches players turn
+// Switches players turn IN COLOR
 function changePlayer() {
     if (turn) {
         turn = false;
