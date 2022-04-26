@@ -21,8 +21,6 @@ let findPiece = function (pieceId) {
 
 // DOM referenes
 const cells = document.querySelectorAll("td");
-const visual = document.querySelectorAll("td.scr_b");
-console.log(visual)
 let redsPieces = document.querySelectorAll("p");
 let blacksPieces = document.querySelectorAll("span")
 const redTurnText = document.querySelectorAll(".red-turn-text");
@@ -337,12 +335,10 @@ function changeData(indexOfBoardPiece, modifiedIndex, removePiece) {
         if (turn && currentSelect.pieceId < 12) {
             cells[removePiece].innerHTML = "";
             b_Score--
-            visual[12 - b_Score].innerHTML = `<p class="scr_w"></p>`
         }
         if (turn === false && currentSelect.pieceId >= 12) {
             cells[removePiece].innerHTML = "";
             r_Score--
-            visual[23 - r_Score].innerHTML = `<p class="scr_r"></p>`
         }
     }
     resetcurrentSelectProperties();

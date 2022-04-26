@@ -2,6 +2,9 @@
     margin: auto;
 }
 
+body {
+    background-image: url('photos/img.png');
+}
 main {
     display: flex;
     flex-direction: column;
@@ -44,6 +47,14 @@ div {
     border-radius: 50px;
 }
 .scr_b {
+    width: 20px;
+    height: 20px;
+    padding: 12px;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 50px;
+}
+.scr_b1 {
     width: 20px;
     height: 20px;
     padding: 12px;
