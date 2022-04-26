@@ -2,18 +2,32 @@
     margin: auto;
 }
 
-td  {
-    background-color: black;
-    width: 65px;
-    height: 65px;
-    text-align: center;
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
 }
 
-.empty {
-    background-color: red;
+div {
+    display: flex;
+    justify-content: space-between;
 }
 
-.black-piece {
+.desktop {
+    margin: 0;
+    width: 100%;
+}
+.scoreboard{
+    margin: 0;
+    width: 100%;
+}
+.white-scr{
+    background: white;
+}
+
+.scr_w {
     width: 20px;
     height: 20px;
     padding: 12px;
@@ -21,8 +35,15 @@ td  {
     border: 1px solid white;
     border-radius: 50px;
 }
-
-.white-piece {
+.scr_r {
+    width: 20px;
+    height: 20px;
+    padding: 12px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 50px;
+}
+.scr_b {
     width: 20px;
     height: 20px;
     padding: 12px;
@@ -30,31 +51,88 @@ td  {
     border: 1px solid white;
     border-radius: 50px;
 }
-table {
-            background: #f8f8f8;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 0;
-            box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
-        }
+.red-scr{
+    background: white;
+}
 
+.checking {
+    width: 20px;
+    height: 20px;
+    padding: 12px;
+    background-color: rgb(4, 7, 120);
+    border: 1px solid rgb(4, 7, 120);
+    border-radius: 50px;
+}
 
-.ScoreBoard {
+.empty {
+    background-color: red;
+}
+
+td {
+    text-align: center;
+    background-color: black;
+    width: 65px;
+    height: 65px;
+}
+
+.red-turn-text {
+    text-align: center;
+    color: black;
+    font-size: 55px;
+}
+
+.black-turn-text {
+    text-align: center;
+    font-size: 55px;
+    color: lightgray;
+}
+
+.black {
+    width: 20px;
+    height: 20px;
+    padding: 12px;
+    background-color: red;
+    border: 1px solid white;
+    border-radius: 50px;
+}
+
+.red {
+    width: 20px;
+    height: 20px;
+    padding: 12px;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 50px;
+}
+
+.king.red {
+    background-color: orange;
+}
+
+.king.black {
+    background-color: purple;
+}
+
+p {
+    display: inline-block;
+}
+
+#divider {
+    font-size: 90px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+span {
+    display: inline-block;
+}
+
+.board {
+    background: #f8f8f8;
     margin-left: auto;
     margin-right: auto;
-}
-
-.ScoreBoard-Red {
-    font-family: "Audiowide", sans-serif;
-    display: inline-block;
-    float: left;
-    padding-left: 15px;
-}
-.ScoreBoard-Black {
-    font-family: "Audiowide", sans-serif;
-    display: inline-block;
-    float: right;
-    padding-right: 15px;
+    padding: 0;
+    box-shadow: 5px 5px 10px 2px rgba(0,0,0,.8);
 }
 
 
