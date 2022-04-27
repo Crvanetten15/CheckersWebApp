@@ -26,7 +26,7 @@ const RedText = document.querySelectorAll(".redtext");
 
 let IsItWhite = false;
 let white_Score = 12; //everytime minus add obj or visual or blah blah
-let black_Score = 12;
+let red_Score = 12;
 let current_player;
 
 let directions = { //used for our directions to help navigate
@@ -43,8 +43,8 @@ let directions = { //used for our directions to help navigate
 //current object values to help check
 let selected = {
     pieceId: -1,
-    pieceIndex: -1,                      //     If X is current selected
-    king: false,                              //  |_JmpTL_|             |_JmpTR_|
+    pieceIndex: -1,                             //     If X is current selected
+    king: false,                                //  |_JmpTL_|             |_JmpTR_|
     BottomL: false,                             //          |_TL_|___|_TR_|
     BottomR: false,                             //          |____|_X_|____|
     JmpBottomL: false,                          //          |_BL_|___|_BR_|
@@ -98,7 +98,6 @@ function resetBorders() {
 //reset obj values of the selected after move
 function removeSelection() {
     selected.pieceId = -1;
-    selected.pieceId = -1;
     selected.king = false;
     selected.BottomL = false;
     selected.BottomR = false;
@@ -112,7 +111,7 @@ function removeSelection() {
 
 //finds piece
 function getSelection() {
-    console.log(cells);
+    console.log(cells); //check location and algo
     console.log(white_piece);
     selected.pieceId = parseInt(event.target.id);
     selected.pieceIndex = getLocation(selected.pieceId);
@@ -227,7 +226,6 @@ function selectionIdentifier() {
 
 //gives available cells moves and adds guide moves
 function allowMove() {
-    // setOpenSpaces()
     if (selected.BottomL) {
         cells[selected.pieceIndex + directions.BL].innerHTML = `<p class="checking" id="${selected.pieceId}"></p>`
         cells[selected.pieceIndex + directions.BL].setAttribute("onclick", "move(7)");
@@ -297,21 +295,21 @@ function move(direction) {
     cells[selected.pieceIndex].innerHTML = "";
     if (IsItWhite) { //white
         if (selected.king) { //sets piece to same colors (king or nah)
-            cells[selected.pieceIndex + direction].innerHTML = `<p class="red king" id="${selected.pieceId}"></p>`;
+            cells[selected.pieceIndex + direction].innerHTML = `<p class="white king" id="${selected.pieceId}"></p>`;
             white_piece = document.querySelectorAll("p");
         }
         else {
-            cells[selected.pieceIndex + direction].innerHTML = `<p class="red" id="${selected.pieceId}"></p>`;
+            cells[selected.pieceIndex + direction].innerHTML = `<p class="white" id="${selected.pieceId}"></p>`;
             white_piece = document.querySelectorAll("p");
         }
     }
     else { //red
         if (selected.king) {
-            cells[selected.pieceIndex + direction].innerHTML = `<span class="black king" id="${selected.pieceId}"></span>`;
+            cells[selected.pieceIndex + direction].innerHTML = `<span class="red king" id="${selected.pieceId}"></span>`;
             red_piece = document.querySelectorAll("span");
         }
         else {
-            cells[selected.pieceIndex + direction].innerHTML = `<span class="black" id="${selected.pieceId}"></span>`;
+            cells[selected.pieceIndex + direction].innerHTML = `<span class="red" id="${selected.pieceId}"></span>`;
             red_piece = document.querySelectorAll("span");
         }
     }
@@ -339,7 +337,7 @@ function updateInfo(pieceIndex, modifiedIndex, removePiece) {
         board[removePiece] = null;
         if (IsItWhite && selected.pieceId < 12) {
             cells[removePiece].innerHTML = "";
-            black_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+            red_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
 
         }
         if (IsItWhite === false && selected.pieceId >= 12) {
@@ -369,18 +367,18 @@ function removeEventListeners() {
 
 // Checks for a win
 function Win() {
-    if (black_Score === 0) {
+    if (red_Score === 0) {
         for (let i = 0; i < WhiteText.length; i++) {
             WhiteText[i].style.color = "white";
             RedText[i].style.display = "none";
-            WhiteText[i].textContent = "White WINS!";
+            WhiteText[i].textContent = "WHITE WINS!";
         }
     }
     else if (white_Score === 0) {
         for (let i = 0; i < RedText.length; i++) {
             RedText[i].style.color = "red";
             WhiteText[i].style.display = "none";
-            RedText[i].textContent = "Red WINS!";
+            RedText[i].textContent = "RED WINS!";
         }
     }
     changePlayer();

@@ -101,7 +101,7 @@ td {
 
 }
 
-.black {
+.red {
     width: 30px;
     height: 30px;
     padding: 12px;
@@ -110,7 +110,7 @@ td {
     border-radius: 50px;
 }
 
-.red {
+.white {
     width: 30px;
     height: 30px;
     padding: 12px;
@@ -119,11 +119,11 @@ td {
     border-radius: 50px;
 }
 
-.king.red {
+.king.white {
     background-color: orange;
 }
 
-.king.black {
+.king.red {
     background-color: purple;
 }
 

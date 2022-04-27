@@ -7,8 +7,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #fff;
+
         }
+body {
+    background-image: url('../photos/img.png');
+}
+.heading{
+    padding-top: 20px;
+    font-family: 'Chango', cursive;
+    font-size: 200px;
+}
 
         .wrapper .menu-btn{
 
