@@ -247,7 +247,7 @@ function giveCellsClick() {
     }
     if (currentSelect.JmpBottomR) {
         cells[currentSelect.indexOfBoardPiece + directions.JBR].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece + directions.JBL].setAttribute("onclick", "makeMove(18)");
+        cells[currentSelect.indexOfBoardPiece + directions.JBR].setAttribute("onclick", "makeMove(18)");
     }
     if (currentSelect.TopR) {
         cells[currentSelect.indexOfBoardPiece + directions.TR].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
