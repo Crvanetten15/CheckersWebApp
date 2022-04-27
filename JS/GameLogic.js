@@ -24,6 +24,7 @@ let red_piece = document.querySelectorAll("span");
 const WhiteText = document.querySelectorAll(".whitetext"); //is edit the topic colors to who goes
 const RedText = document.querySelectorAll(".redtext");
 
+
 let IsItWhite = false;
 let white_Score = 12; //everytime minus add obj or visual or blah blah
 let red_Score = 12;
@@ -291,7 +292,7 @@ function removePreviousChecks(previousSelect){
 //when click is set the ability to move is added allowing this function to move the pieces
 function move(direction) {
     removePreviousChecks(selected)  //removes the guides
-    document.getElementById(selected.pieceId).remove(); //removes element
+    document.getElementById(selected.pieceId).remove();//removes element
     cells[selected.pieceIndex].innerHTML = "";
     if (IsItWhite) { //white
         if (selected.king) { //sets piece to same colors (king or nah)
@@ -343,6 +344,7 @@ function updateInfo(pieceIndex, modifiedIndex, removePiece) {
         if (IsItWhite === false && selected.pieceId >= 12) {
             cells[removePiece].innerHTML = "";
             white_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+
         }
     }
     removeSelection();

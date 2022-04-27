@@ -1,4 +1,5 @@
-/*----------- Game State Data ----------*/
+//back end board to handle game
+// noinspection JSIncompatibleTypesComparison
 
 const board = [
     null,   0,      null,   1,      null,   2,      null,   3,
@@ -8,36 +9,43 @@ const board = [
     null,   null,   null,   null,   null,   null,   null,   null,
     12,     null,   13,     null,   14,     null,   15,     null,
     null,   16,     null,   17,     null,   18,     null,   19,
-    20,     null,   21,     null,   22,     null,   23,     null
-]
+    20,     null,   21,     null,   22,     null,   23,     null]
 
-/*---------- Cached Variables ----------*/
 
-// parses pieceId's and returns the index of that piece's place on the board
-let findPiece = function (pieceId) {
-    let parsed = parseInt(pieceId);
-    return board.indexOf(parsed);
-};
+// returns the current index of a piece
+function getLocation(current_piece) {
+    return board.indexOf(current_piece);
+}
 
-// DOM referenes
+// Referencing the dom to grab information/ Setting Variables
 const cells = document.querySelectorAll("td");
-let redsPieces = document.querySelectorAll("p");
-let blacksPieces = document.querySelectorAll("span")
-const redTurnText = document.querySelectorAll(".red-turn-text");
-const blackTurntext = document.querySelectorAll(".black-turn-text");
-const divider = document.querySelector("#divider")
+let white_piece = document.querySelectorAll("p");
+let red_piece = document.querySelectorAll("span");
+const WhiteText = document.querySelectorAll(".whitetext"); //is edit the topic colors to who goes
+const RedText = document.querySelectorAll(".redtext");
 
-// player properties
-let turn = true;
-let r_Score = 12;
-let b_Score = 12;
-let playerPieces;
 
-// selected piece properties
-let currentSelect = {
+let IsItWhite = false;
+let white_Score = 12; //everytime minus add obj or visual or blah blah
+let red_Score = 12;
+let current_player;
+
+let directions = { //used for our directions to help navigate
+    BL: 7,
+    BR: 9,
+    JBL: 14,
+    JBR: 18,
+    TR: -7,
+    TL: -9,
+    JTR: -14,
+    JTL: -18
+}
+
+//current object values to help check
+let selected = {
     pieceId: -1,
-    indexOfBoardPiece: -1,                      //     If X is current selected
-    isKing: false,                              //  |_JmpTL_|             |_JmpTR_|
+    pieceIndex: -1,                             //     If X is current selected
+    king: false,                                //  |_JmpTL_|             |_JmpTR_|
     BottomL: false,                             //          |_TL_|___|_TR_|
     BottomR: false,                             //          |____|_X_|____|
     JmpBottomL: false,                          //          |_BL_|___|_BR_|
@@ -47,430 +55,365 @@ let currentSelect = {
     JmpTopR: false, //JmpTopR
     JmpTopL: false //JmpTopL
 }
+//Adding listeners to the current teams pieces done each turn
+function setEventListeners() {
+    if (IsItWhite) {
+        IsItWhite = false;
 
-
-
-/*---------- Event Listeners ----------*/
-
-// initialize event listeners on pieces
-function givePiecesEventListeners() {
-    if (turn) {
-        for (let i = 0; i < redsPieces.length; i++) {
-            SearchforJump(redsPieces[i])
+        for (let i = 0; i < red_piece.length; i++) {
+            red_piece[i].addEventListener("click", SetCurrentColor);
         }
     } else {
-        for (let i = 0; i < blacksPieces.length; i++) {
-            blacksPieces[i].addEventListener("click", getPlayerPieces);
+        for (let i = 0; i < red_piece.length; i++) {
+            red_piece[i].addEventListener("click", SetCurrentColor);
         }
     }
 }
 
-/*---------- Logic ----------*/
-
-function AIpossibleMoves(AIcheck){
-    if (board[AIcheck.indexOfBoardPiece + 7] === null && cells[AIcheck.indexOfBoardPiece + 7].classList.contains("empty") !== true) {
-        AIcheck.BottomL = true;
-    }
-    if (board[AIcheck.indexOfBoardPiece + 9] === null && cells[AIcheck.indexOfBoardPiece + 9].classList.contains("empty") !== true) {
-        AIcheck.BottomR = true;
-    }
-    if (board[AIcheck.indexOfBoardPiece - 7] === null && cells[AIcheck.indexOfBoardPiece - 7].classList.contains("empty") !== true) {
-        AIcheck.TopR = true;
-    }
-    if (board[AIcheck.indexOfBoardPiece - 9] === null && cells[AIcheck.indexOfBoardPiece - 9].classList.contains("empty") !== true) {
-        AIcheck.TopL = true;
-    }
-    AIjmpMoves(AIcheck)
-
-    if(AIcheck.JmpBottomL == true){
-
-    }
-}
-
-
-function AIjmpMoves(AIcheck){
-
-    if (board[AIcheck.indexOfBoardPiece + 14] === null
-        && cells[AIcheck.indexOfBoardPiece + 14].classList.contains("empty") !== true
-        && board[AIcheck.indexOfBoardPiece + 7] >= 12) {
-        AIcheck.JmpBottomL = true;
-    }
-    if (board[AIcheck.indexOfBoardPiece + 18] === null
-        && cells[AIcheck.indexOfBoardPiece + 18].classList.contains("empty") !== true
-        && board[AIcheck.indexOfBoardPiece + 9] >= 12) {
-        AIcheck.JmpBottomR = true;
-    }
-    if (board[AIcheck.indexOfBoardPiece - 14] === null
-        && cells[AIcheck.indexOfBoardPiece - 14].classList.contains("empty") !== true
-        && board[AIcheck.indexOfBoardPiece - 7] >= 12) {
-        AIcheck.JmpTopR = true;
-    }
-    if (board[AIcheck.indexOfBoardPiece - 18] === null
-        && cells[AIcheck.indexOfBoardPiece - 18].classList.contains("empty") !== true
-        && board[AIcheck.indexOfBoardPiece - 9] >= 12) {
-        AIcheck.JmpTopL = true;
-    }
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// holds the length of the players piece count
-function getPlayerPieces() {
-    if (turn) {
-        playerPieces = redsPieces;
+//sets color of the current player and holds onto number of pieces
+function SetCurrentColor() {
+    if (IsItWhite) {
+        current_player = white_piece;
     } else {
-        playerPieces = blacksPieces;
+        current_player = red_piece;
     }
-    removeCellonclick();
+    resetSelect();
     resetBorders();
 }
 
-// removes possible moves from old selected piece (* this is needed because the user might re-select a piece *)
-function removeCellonclick() {
-    removePreviousChecks(currentSelect);
+//for reselecting if mind changes
+function resetSelect() {
+    removePreviousChecks(selected);
     for (let i = 0; i < cells.length; i++) {
         cells[i].removeAttribute("onclick");
     }
 }
 
-// resets borders to default
+//resets border after moves
 function resetBorders() {
-    for (let i = 0; i < playerPieces.length; i++) {
-        playerPieces[i].style.border = "1px solid white";
+    for (let i = 0; i < current_player.length; i++) {
+        current_player[i].style.border = "1px solid white";
     }
-    resetcurrentSelectProperties();
-    getcurrentSelect();
+    removeSelection();
+    getSelection();
 }
 
-// resets selected piece properties
-function resetcurrentSelectProperties() {
-    currentSelect.pieceId = -1;
-    currentSelect.pieceId = -1;
-    currentSelect.isKing = false;
-    currentSelect.BottomL = false;
-    currentSelect.BottomR = false;
-    currentSelect.JmpBottomL = false;
-    currentSelect.JmpBottomR = false;
-    currentSelect.TopR = false;
-    currentSelect.TopL = false;
-    currentSelect.JmpTopR = false;
-    currentSelect.JmpTopL = false;
+//reset obj values of the selected after move
+function removeSelection() {
+    selected.pieceId = -1;
+    selected.king = false;
+    selected.BottomL = false;
+    selected.BottomR = false;
+    selected.JmpBottomL = false;
+    selected.JmpBottomR = false;
+    selected.TopR = false;
+    selected.TopL = false;
+    selected.JmpTopR = false;
+    selected.JmpTopL = false;
 }
 
-// gets ID and index of the board cell its on
-function getcurrentSelect() {
-    currentSelect.pieceId = parseInt(event.target.id);
-    currentSelect.indexOfBoardPiece = findPiece(currentSelect.pieceId);
+//finds piece
+function getSelection() {
+    console.log(cells); //check location and algo
+    console.log(white_piece);
+    selected.pieceId = parseInt(event.target.id);
+    selected.pieceIndex = getLocation(selected.pieceId);
     isPieceKing();
 }
 
-// checks if selected piece is a king
+//finds out if king or nah
 function isPieceKing() {
-    if (document.getElementById(currentSelect.pieceId).classList.contains("king")) {
-        currentSelect.isKing = true;
-    } else {
-        currentSelect.isKing = false;
-    }
+    selected.king = document.getElementById(selected.pieceId).classList.contains("king");
     getAvailableSpaces();
 }
 
-// gets the moves that the selected piece can make
+//gets available 1 place moves
 function getAvailableSpaces() {
-    if (board[currentSelect.indexOfBoardPiece + 7] === null && cells[currentSelect.indexOfBoardPiece + 7].classList.contains("empty") !== true) {
-        currentSelect.BottomL = true;
+    if (board[selected.pieceIndex + directions.BL] === null && cells[selected.pieceIndex + directions.BL].classList.contains("empty") !== true) {
+        selected.BottomL = true;
     }
-    if (board[currentSelect.indexOfBoardPiece + 9] === null && cells[currentSelect.indexOfBoardPiece + 9].classList.contains("empty") !== true) {
-        currentSelect.BottomR = true;
+    if (board[selected.pieceIndex + directions.BR] === null && cells[selected.pieceIndex + directions.BR].classList.contains("empty") !== true) {
+        selected.BottomR = true;
     }
-    if (board[currentSelect.indexOfBoardPiece - 7] === null && cells[currentSelect.indexOfBoardPiece - 7].classList.contains("empty") !== true) {
-        currentSelect.TopR = true;
+    if (board[selected.pieceIndex + directions.TR] === null && cells[selected.pieceIndex + directions.TR].classList.contains("empty") !== true) {
+        selected.TopR = true;
     }
-    if (board[currentSelect.indexOfBoardPiece - 9] === null && cells[currentSelect.indexOfBoardPiece - 9].classList.contains("empty") !== true) {
-        currentSelect.TopL = true;
+    if (board[selected.pieceIndex + directions.TL] === null && cells[selected.pieceIndex + directions.TL].classList.contains("empty") !== true) {
+        selected.TopL = true;
     }
     checkAvailableJumpSpaces();
 }
 
-// gets the moves that the selected piece can jump
+//gets available jump moves
 function checkAvailableJumpSpaces() {
-    if (turn) {
-        if (board[currentSelect.indexOfBoardPiece + 14] === null
-            && cells[currentSelect.indexOfBoardPiece + 14].classList.contains("empty") !== true
-            && board[currentSelect.indexOfBoardPiece + 7] >= 12) {
-            currentSelect.JmpBottomL = true;
+    if (IsItWhite) {
+        if (board[selected.pieceIndex + directions.JBL] === null && cells[selected.pieceIndex + directions.JBL].classList.contains("empty") !== true
+            && board[selected.pieceIndex + directions.BL] >= 12) {
+            selected.JmpBottomL = true;
         }
-        if (board[currentSelect.indexOfBoardPiece + 18] === null
-            && cells[currentSelect.indexOfBoardPiece + 18].classList.contains("empty") !== true
-            && board[currentSelect.indexOfBoardPiece + 9] >= 12) {
-            currentSelect.JmpBottomR = true;
+        if (board[selected.pieceIndex + directions.JBR] === null && cells[selected.pieceIndex + directions.JBR].classList.contains("empty") !== true
+            && board[selected.pieceIndex + directions.BR] >= 12) {
+            selected.JmpBottomR = true;
         }
-        if (board[currentSelect.indexOfBoardPiece - 14] === null
-            && cells[currentSelect.indexOfBoardPiece - 14].classList.contains("empty") !== true
-            && board[currentSelect.indexOfBoardPiece - 7] >= 12) {
-            currentSelect.JmpTopR = true;
+        if (board[selected.pieceIndex + directions.JTR] === null && cells[selected.pieceIndex + directions.JTR].classList.contains("empty") !== true
+            && board[selected.pieceIndex + directions.TR] >= 12) {
+            selected.JmpTopR = true;
         }
-        if (board[currentSelect.indexOfBoardPiece - 18] === null
-            && cells[currentSelect.indexOfBoardPiece - 18].classList.contains("empty") !== true
-            && board[currentSelect.indexOfBoardPiece - 9] >= 12) {
-            currentSelect.JmpTopL = true;
+        if (board[selected.pieceIndex + directions.JTL] === null && cells[selected.pieceIndex + directions.JTL].classList.contains("empty") !== true
+            && board[selected.pieceIndex + directions.TL] >= 12) {
+            selected.JmpTopL = true;
         }
-    } else {
-        if (board[currentSelect.indexOfBoardPiece + 14] === null
-            && cells[currentSelect.indexOfBoardPiece + 14].classList.contains("empty") !== true
-            && board[currentSelect.indexOfBoardPiece + 7] < 12 && board[currentSelect.indexOfBoardPiece + 7] !== null) {
-            currentSelect.JmpBottomL = true;
+        /*
+        * BL: 7,
+    BR: 9,
+    JBL: 14,
+    JBR: 18,
+    TR: -7,
+    TL: -9,
+    JTR: -14,
+    JTL: -18*/
+    }
+    else {
+        if (board[selected.pieceIndex + directions.JBL] === null && cells[selected.pieceIndex + directions.JBL].classList.contains("empty") !== true
+            && board[selected.pieceIndex + directions.BL] < 12 && board[selected.pieceIndex + directions.BL] !== null) {
+            selected.JmpBottomL = true;
         }
-        if (board[currentSelect.indexOfBoardPiece + 18] === null
-            && cells[currentSelect.indexOfBoardPiece + 18].classList.contains("empty") !== true
-            && board[currentSelect.indexOfBoardPiece + 9] < 12 && board[currentSelect.indexOfBoardPiece + 9] !== null) {
-            currentSelect.JmpBottomR = true;
+        if (board[selected.pieceIndex + directions.JBR] === null && cells[selected.pieceIndex + directions.JBR].classList.contains("empty") !== true
+            && board[selected.pieceIndex + directions.BR] < 12 && board[selected.pieceIndex + directions.BR] !== null) {
+            selected.JmpBottomR = true;
         }
-        if (board[currentSelect.indexOfBoardPiece - 14] === null && cells[currentSelect.indexOfBoardPiece - 14].classList.contains("empty") !== true
-            && board[currentSelect.indexOfBoardPiece - 7] < 12
-            && board[currentSelect.indexOfBoardPiece - 7] !== null) {
-            currentSelect.JmpTopR = true;
+        if (board[selected.pieceIndex + directions.JTR] === null && cells[selected.pieceIndex + directions.JTR].classList.contains("empty") !== true && board[selected.pieceIndex + directions.TR] < 12
+            && board[selected.pieceIndex + directions.TR] !== null) {
+            selected.JmpTopR = true;
         }
-        if (board[currentSelect.indexOfBoardPiece - 18] === null && cells[currentSelect.indexOfBoardPiece - 18].classList.contains("empty") !== true
-            && board[currentSelect.indexOfBoardPiece - 9] < 12
-            && board[currentSelect.indexOfBoardPiece - 9] !== null) {
-            currentSelect.JmpTopL = true;
+        if (board[selected.pieceIndex + directions.JTL] === null && cells[selected.pieceIndex + directions.JTL].classList.contains("empty") !== true && board[selected.pieceIndex + directions.TL] < 12
+            && board[selected.pieceIndex + directions.TL] !== null) {
+            selected.JmpTopL = true;
         }
     }
-    checkPieceConditions();
+    MovementRestrictions();
 }
 
 // restricts movement if the piece is a king
-function checkPieceConditions() {
-    if (currentSelect.isKing) {
-        givePieceBorder();
-    } else {
-        if (turn) {
-            currentSelect.TopR = false;
-            currentSelect.TopL = false;
-            currentSelect.JmpTopR = false;
-            currentSelect.JmpTopL = false;
-        } else {
-            currentSelect.BottomL = false;
-            currentSelect.BottomR = false;
-            currentSelect.JmpBottomL = false;
-            currentSelect.JmpBottomR = false;
+function MovementRestrictions() {
+    if (selected.king) { //give no restrictions cuz king
+        selectionIdentifier();
+    }
+    else {
+        if (IsItWhite) { //if white cant move up
+            selected.TopR = false;
+            selected.TopL = false;
+            selected.JmpTopR = false;
+            selected.JmpTopL = false;
         }
-        givePieceBorder();
+        else { //if red cant move down
+            selected.BottomL = false;
+            selected.BottomR = false;
+            selected.JmpBottomL = false;
+            selected.JmpBottomR = false;
+        }
+        selectionIdentifier();
     }
 }
 
-// gives the piece a green highlight for the user (showing its movable)
-function givePieceBorder() {
-    if (currentSelect.BottomL || currentSelect.BottomR || currentSelect.JmpBottomL || currentSelect.JmpBottomR
-        || currentSelect.TopR || currentSelect.TopL || currentSelect.JmpTopR || currentSelect.JmpTopL) {
-        document.getElementById(currentSelect.pieceId).style.border = "3px solid green";
-        giveCellsClick();
+//shows selected piece checks for if a possibly moving piece if not no move
+function selectionIdentifier() {
+    if (selected.BottomL || selected.BottomR || selected.JmpBottomL || selected.JmpBottomR
+        || selected.TopR || selected.TopL || selected.JmpTopR || selected.JmpTopL) {
+        document.getElementById(selected.pieceId).style.border = "3px solid green";
+        allowMove();
     } else {
         return;
     }
 }
 
-// gives the cells on the board a 'click' based on the possible moves
-function giveCellsClick() {
-    // setOpenSpaces()
-    if (currentSelect.BottomL) {
-        cells[currentSelect.indexOfBoardPiece + 7].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece + 7].setAttribute("onclick", "makeMove(7)");
+//gives available cells moves and adds guide moves
+function allowMove() {
+    if (selected.BottomL) {
+        cells[selected.pieceIndex + directions.BL].innerHTML = `<p class="checking" id="${selected.pieceId}"></p>`
+        cells[selected.pieceIndex + directions.BL].setAttribute("onclick", "move(7)");
     }
-    if (currentSelect.BottomR) {
-        cells[currentSelect.indexOfBoardPiece + 9].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece + 9].setAttribute("onclick", "makeMove(9)");
+    if (selected.BottomR) {
+        cells[selected.pieceIndex + directions.BR].innerHTML = `<p class="checking" id="${selected.pieceId}"></p>`
+        cells[selected.pieceIndex + directions.BR].setAttribute("onclick", "move(9)");
     }
-    if (currentSelect.JmpBottomL) {
-        cells[currentSelect.indexOfBoardPiece + 14].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece + 14].setAttribute("onclick", "makeMove(14)");
+    if (selected.JmpBottomL) {
+        cells[selected.pieceIndex + directions.JBL].innerHTML = `<p class="checking" id="${selected.pieceId}"></p>`
+        cells[selected.pieceIndex + directions.JBL].setAttribute("onclick", "move(14)");
     }
-    if (currentSelect.JmpBottomR) {
-        cells[currentSelect.indexOfBoardPiece + 18].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece + 18].setAttribute("onclick", "makeMove(18)");
+    if (selected.JmpBottomR) {
+        cells[selected.pieceIndex + directions.JBR].innerHTML = `<p class="checking" id="${selected.pieceId}"></p>`
+        cells[selected.pieceIndex + directions.JBR].setAttribute("onclick", "move(18)");
     }
-    if (currentSelect.TopR) {
-        cells[currentSelect.indexOfBoardPiece - 7].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece - 7].setAttribute("onclick", "makeMove(-7)");
+    if (selected.TopR) {
+        cells[selected.pieceIndex + directions.TR].innerHTML = `<p class="checking" id="${selected.pieceId}"></p>`
+        cells[selected.pieceIndex + directions.TR].setAttribute("onclick", "move(-7)");
     }
-    if (currentSelect.TopL) {
-        cells[currentSelect.indexOfBoardPiece - 9].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece - 9].setAttribute("onclick", "makeMove(-9)");
+    if (selected.TopL) {
+        cells[selected.pieceIndex + directions.TL].innerHTML = `<p class="checking" id="${selected.pieceId}"></p>`
+        cells[selected.pieceIndex + directions.TL].setAttribute("onclick", "move(-9)");
     }
-    if (currentSelect.JmpTopR) {
-        cells[currentSelect.indexOfBoardPiece - 14].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece - 14].setAttribute("onclick", "makeMove(-14)");
+    if (selected.JmpTopR) {
+        cells[selected.pieceIndex + directions.JTR].innerHTML = `<p class="checking" id="${selected.pieceId}"></p>`
+        cells[selected.pieceIndex + directions.JTR].setAttribute("onclick", "move(-14)");
     }
-    if (currentSelect.JmpTopL) {
-        cells[currentSelect.indexOfBoardPiece - 18].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece - 18].setAttribute("onclick", "makeMove(-18)");
+    if (selected.JmpTopL) {
+        cells[selected.pieceIndex + directions.JTL].innerHTML = `<p class="checking" id="${selected.pieceId}"></p>`
+        cells[selected.pieceIndex + directions.JTL].setAttribute("onclick", "move(-18)");
     }
 }
 
+//removes possible moves guide spaces
 function removePreviousChecks(previousSelect){
     if (previousSelect.BottomL) {
-        cells[previousSelect.indexOfBoardPiece + 7].innerHTML = ""
+        cells[previousSelect.pieceIndex + directions.BL].innerHTML = ""
     }
     if (previousSelect.BottomR) {
-        cells[previousSelect.indexOfBoardPiece + 9].innerHTML = ""
+        cells[previousSelect.pieceIndex + directions.BR].innerHTML = ""
     }
     if (previousSelect.JmpBottomL) {
-        cells[previousSelect.indexOfBoardPiece + 14].innerHTML = ""
+        cells[previousSelect.pieceIndex + directions.JBL].innerHTML = ""
     }
     if (previousSelect.JmpBottomR) {
-        cells[previousSelect.indexOfBoardPiece + 18].innerHTML = ""
+        cells[previousSelect.pieceIndex + directions.JBR].innerHTML = ""
     }
     if (previousSelect.TopR) {
-        cells[previousSelect.indexOfBoardPiece - 7].innerHTML = ""
+        cells[previousSelect.pieceIndex + directions.TR].innerHTML = ""
     }
     if (previousSelect.TopL) {
-        cells[previousSelect.indexOfBoardPiece - 9].innerHTML = ""
+        cells[previousSelect.pieceIndex + directions.TL].innerHTML = ""
     }
     if (previousSelect.JmpTopR) {
-        cells[previousSelect.indexOfBoardPiece - 14].innerHTML = ""
+        cells[previousSelect.pieceIndex + directions.JTR].innerHTML = ""
     }
     if (previousSelect.JmpTopL) {
-        cells[previousSelect.indexOfBoardPiece - 18].innerHTML = ""
+        cells[previousSelect.pieceIndex + directions.JTL].innerHTML = ""
     }
 }
-/* v when the cell is clicked v */
 
-// makes the move that was clicked
-function makeMove(number) {
-    console.log("- - - - - - - -  - - - - - - - ")
-    removePreviousChecks(currentSelect) //TODO; here
-    document.getElementById(currentSelect.pieceId).remove();
-    cells[currentSelect.indexOfBoardPiece].innerHTML = "";
-    for (let i = 0; i < 64; i++){console.log(cells[i].innerHTML)}
-    console.log(cells);
-    if (turn) {
-        if (currentSelect.isKing) {
-            cells[currentSelect.indexOfBoardPiece + number].innerHTML = `<p class="red king" id="${currentSelect.pieceId}"></p>`;
-            redsPieces = document.querySelectorAll("p");
-        } else {
-            cells[currentSelect.indexOfBoardPiece + number].innerHTML = `<p class="red" id="${currentSelect.pieceId}"></p>`;
-            redsPieces = document.querySelectorAll("p");
+//when click is set the ability to move is added allowing this function to move the pieces
+function move(direction) {
+    removePreviousChecks(selected)  //removes the guides
+    document.getElementById(selected.pieceId).remove();//removes element
+    cells[selected.pieceIndex].innerHTML = "";
+    if (IsItWhite) { //white
+        if (selected.king) { //sets piece to same colors (king or nah)
+            cells[selected.pieceIndex + direction].innerHTML = `<p class="white king" id="${selected.pieceId}"></p>`;
+            white_piece = document.querySelectorAll("p");
         }
-    } else {
-        if (currentSelect.isKing) {
-            cells[currentSelect.indexOfBoardPiece + number].innerHTML = `<span class="black king" id="${currentSelect.pieceId}"></span>`;
-            blacksPieces = document.querySelectorAll("span");
-        } else {
-            cells[currentSelect.indexOfBoardPiece + number].innerHTML = `<span class="black" id="${currentSelect.pieceId}"></span>`;
-            blacksPieces = document.querySelectorAll("span");
+        else {
+            cells[selected.pieceIndex + direction].innerHTML = `<p class="white" id="${selected.pieceId}"></p>`;
+            white_piece = document.querySelectorAll("p");
+        }
+    }
+    else { //red
+        if (selected.king) {
+            cells[selected.pieceIndex + direction].innerHTML = `<span class="red king" id="${selected.pieceId}"></span>`;
+            red_piece = document.querySelectorAll("span");
+        }
+        else {
+            cells[selected.pieceIndex + direction].innerHTML = `<span class="red" id="${selected.pieceId}"></span>`;
+            red_piece = document.querySelectorAll("span");
         }
     }
 
-    let indexOfPiece = currentSelect.indexOfBoardPiece
-    if (number === 14 || number === -14 || number === 18 || number === -18) {
-        changeData(indexOfPiece, indexOfPiece + number, indexOfPiece + number / 2);
-    } else {
-        changeData(indexOfPiece, indexOfPiece + number);
+    let indexOfPiece = selected.pieceIndex
+    if (direction === 14 || direction === -14 || direction === 18 || direction === -18) { //checks if move was jumping
+        updateInfo(indexOfPiece, indexOfPiece + direction, indexOfPiece + direction / 2);
+    }
+    else {
+        updateInfo(indexOfPiece, indexOfPiece + direction);
     }
 }
 
 // Changes the board states data on the back end
-function changeData(indexOfBoardPiece, modifiedIndex, removePiece) {
-    board[indexOfBoardPiece] = null;
-    board[modifiedIndex] = parseInt(currentSelect.pieceId);
-    if (turn && currentSelect.pieceId < 12 && modifiedIndex >= 57) {
-        document.getElementById(currentSelect.pieceId).classList.add("king")
+function updateInfo(pieceIndex, modifiedIndex, removePiece) {
+    board[pieceIndex] = null;
+    board[modifiedIndex] = parseInt(selected.pieceId);
+    if (IsItWhite && selected.pieceId < 12 && modifiedIndex >= 57) {
+        document.getElementById(selected.pieceId).classList.add("king")
     }
-    if (turn === false && currentSelect.pieceId >= 12 && modifiedIndex <= 7) {
-        document.getElementById(currentSelect.pieceId).classList.add("king");
+    if (IsItWhite === false && selected.pieceId >= 12 && modifiedIndex <= 7) {
+        document.getElementById(selected.pieceId).classList.add("king");
     }
-    if (removePiece) {
+    if (removePiece) { // if null nothing to update besides the new place
         board[removePiece] = null;
-        if (turn && currentSelect.pieceId < 12) {
+        if (IsItWhite && selected.pieceId < 12) {
             cells[removePiece].innerHTML = "";
-            b_Score--
+            red_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+
         }
-        if (turn === false && currentSelect.pieceId >= 12) {
+        if (IsItWhite === false && selected.pieceId >= 12) {
             cells[removePiece].innerHTML = "";
-            r_Score--
+            white_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+
         }
     }
-    resetcurrentSelectProperties();
-    removeCellonclick();
+    removeSelection();
+    resetSelect();
     removeEventListeners();
 }
 
 // removes the 'onClick' event listeners for pieces
 function removeEventListeners() {
-    if (turn) {
-        for (let i = 0; i < redsPieces.length; i++) {
-            redsPieces[i].removeEventListener("click", getPlayerPieces);
-        }
-    } else {
-        for (let i = 0; i < blacksPieces.length; i++) {
-            blacksPieces[i].removeEventListener("click", getPlayerPieces);
+    if (IsItWhite) {
+        for (let i = 0; i < white_piece.length; i++) {
+            white_piece[i].removeEventListener("click", SetCurrentColor);
         }
     }
-    checkForWin();
+    else {
+        for (let i = 0; i < red_piece.length; i++) {
+            red_piece[i].removeEventListener("click", SetCurrentColor);
+        }
+    }
+    Win();
 }
 
 // Checks for a win
-function checkForWin() {
-    if (b_Score === 0) {
-        divider.style.display = "none";
-        for (let i = 0; i < redTurnText.length; i++) {
-            redTurnText[i].style.color = "black";
-            blackTurntext[i].style.display = "none";
-            redTurnText[i].textContent = "RED WINS!";
+function Win() {
+    if (red_Score === 0) {
+        for (let i = 0; i < WhiteText.length; i++) {
+            WhiteText[i].style.color = "white";
+            RedText[i].style.display = "none";
+            WhiteText[i].textContent = "WHITE WINS!";
         }
-    } else if (r_Score === 0) {
-        divider.style.display = "none";
-        for (let i = 0; i < blackTurntext.length; i++) {
-            blackTurntext[i].style.color = "black";
-            redTurnText[i].style.display = "none";
-            blackTurntext[i].textContent = "BLACK WINS!";
+    }
+    else if (white_Score === 0) {
+        for (let i = 0; i < RedText.length; i++) {
+            RedText[i].style.color = "red";
+            WhiteText[i].style.display = "none";
+            RedText[i].textContent = "RED WINS!";
         }
     }
     changePlayer();
 }
 
-// Switches players turn
+// Switches players turn IN COLOR
 function changePlayer() {
-    if (turn) {
-        turn = false;
-        for (let i = 0; i < redTurnText.length; i++) {
-            redTurnText[i].style.color = "lightGrey";
-            blackTurntext[i].style.color = "black";
-        }
-    } else {
-        turn = true;
-        for (let i = 0; i < blackTurntext.length; i++) {
-            blackTurntext[i].style.color = "lightGrey";
-            redTurnText[i].style.color = "black";
+    if (IsItWhite) {
+        IsItWhite = false;
+        for (let i = 0; i < WhiteText.length; i++) {
+            WhiteText[i].style.color = "lightGrey";
+            RedText[i].style.color = "red";
         }
     }
-    givePiecesEventListeners();
+    else {
+        IsItWhite = true;
+        for (let i = 0; i < RedText.length; i++) {
+            RedText[i].style.color = "lightGrey";
+            WhiteText[i].style.color = "white";
+        }
+    }
+    setEventListeners();
 }
 
-givePiecesEventListeners();
+setEventListeners();
+
+function refreshPage() {
+    location.reload();
+}
+
+function goBack() {
+    let backbutton = document.querySelector('button');
+    backbutton.addEventListener('click', () => {window.history.back();});
+}
