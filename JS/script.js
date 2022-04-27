@@ -22,7 +22,7 @@ const cells = document.querySelectorAll("td");
 let white_piece = document.querySelectorAll("p");
 let red_piece = document.querySelectorAll("span");
 const WhiteText = document.querySelectorAll(".whitetext"); //is edit the topic colors to who goes
-const blackTurntext = document.querySelectorAll(".redtext");
+const RedText = document.querySelectorAll(".redtext");
 const divider = document.querySelector("#divider") //does nothing holds space
 let IsItWhite = false;
 let white_Score = 12; //everytime minus add obj or visual or blah blah
@@ -58,7 +58,7 @@ let currentSelect = {
 /*---------- Event Listeners ----------*/
 
 // initialize event listeners on pieces
-function givePiecesEventListeners() {
+function setEventListeners() {
     if (IsItWhite) {
         for (let i = 0; i < white_piece.length; i++) {
             white_piece[i].addEventListener("click", SetCurrentColor);
@@ -364,24 +364,24 @@ function removeEventListeners() {
             red_piece[i].removeEventListener("click", SetCurrentColor);
         }
     }
-    checkForWin();
+    Win();
 }
 
 // Checks for a win
-function checkForWin() {
+function Win() {
     if (black_Score === 0) {
         divider.style.display = "none";
         for (let i = 0; i < WhiteText.length; i++) {
-            WhiteText[i].style.color = "black";
-            blackTurntext[i].style.display = "none";
-            WhiteText[i].textContent = "RED WINS!";
+            WhiteText[i].style.color = "white";
+            RedText[i].style.display = "none";
+            WhiteText[i].textContent = "White WINS!";
         }
     } else if (white_Score === 0) {
         divider.style.display = "none";
-        for (let i = 0; i < blackTurntext.length; i++) {
-            blackTurntext[i].style.color = "black";
+        for (let i = 0; i < RedText.length; i++) {
+            RedText[i].style.color = "red";
             WhiteText[i].style.display = "none";
-            blackTurntext[i].textContent = "BLACK WINS!";
+            RedText[i].textContent = "Red WINS!";
         }
     }
     changePlayer();
@@ -393,16 +393,16 @@ function changePlayer() {
         IsItWhite = false;
         for (let i = 0; i < WhiteText.length; i++) {
             WhiteText[i].style.color = "lightGrey";
-            blackTurntext[i].style.color = "red";
+            RedText[i].style.color = "red";
         }
     } else {
         IsItWhite = true;
-        for (let i = 0; i < blackTurntext.length; i++) {
-            blackTurntext[i].style.color = "lightGrey";
+        for (let i = 0; i < RedText.length; i++) {
+            RedText[i].style.color = "lightGrey";
             WhiteText[i].style.color = "white";
         }
     }
-    givePiecesEventListeners();
+    setEventListeners();
 }
 
-givePiecesEventListeners();
+setEventListeners();
