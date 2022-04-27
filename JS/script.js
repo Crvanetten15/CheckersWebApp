@@ -406,3 +406,12 @@ function changePlayer() {
 }
 
 setEventListeners();
+
+function refreshPage() {
+    location.reload();
+}
+
+function goBack() {
+    let backbutton = document.querySelector('button');
+    backbutton.addEventListener('click', () => {window.history.back();});
+}
