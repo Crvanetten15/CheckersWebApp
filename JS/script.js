@@ -136,16 +136,16 @@ function isPieceKing() {
 
 // gets the moves that the selected piece can make
 function getAvailableSpaces() {
-    if (board[currentSelect.indexOfBoardPiece + directions.BL] === null && cells[currentSelect.indexOfBoardPiece + 7].classList.contains("empty") !== true) {
+    if (board[currentSelect.indexOfBoardPiece + directions.BL] === null && cells[currentSelect.indexOfBoardPiece + directions.BL].classList.contains("empty") !== true) {
         currentSelect.BottomL = true;
     }
-    if (board[currentSelect.indexOfBoardPiece + directions.BR] === null && cells[currentSelect.indexOfBoardPiece + 9].classList.contains("empty") !== true) {
+    if (board[currentSelect.indexOfBoardPiece + directions.BR] === null && cells[currentSelect.indexOfBoardPiece + directions.BR].classList.contains("empty") !== true) {
         currentSelect.BottomR = true;
     }
-    if (board[currentSelect.indexOfBoardPiece + directions.TR] === null && cells[currentSelect.indexOfBoardPiece - 7].classList.contains("empty") !== true) {
+    if (board[currentSelect.indexOfBoardPiece + directions.TR] === null && cells[currentSelect.indexOfBoardPiece + directions.TR].classList.contains("empty") !== true) {
         currentSelect.TopR = true;
     }
-    if (board[currentSelect.indexOfBoardPiece + directions.TL] === null && cells[currentSelect.indexOfBoardPiece - 9].classList.contains("empty") !== true) {
+    if (board[currentSelect.indexOfBoardPiece + directions.TL] === null && cells[currentSelect.indexOfBoardPiece + directions.TL].classList.contains("empty") !== true) {
         currentSelect.TopL = true;
     }
     checkAvailableJumpSpaces();
@@ -234,95 +234,95 @@ function selectionIdentifier() {
 function giveCellsClick() {
     // setOpenSpaces()
     if (currentSelect.BottomL) {
-        cells[currentSelect.indexOfBoardPiece + 7].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece + 7].setAttribute("onclick", "makeMove(7)");
+        cells[currentSelect.indexOfBoardPiece + directions.BL].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
+        cells[currentSelect.indexOfBoardPiece + directions.BL].setAttribute("onclick", "makeMove(7)");
     }
     if (currentSelect.BottomR) {
-        cells[currentSelect.indexOfBoardPiece + 9].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece + 9].setAttribute("onclick", "makeMove(9)");
+        cells[currentSelect.indexOfBoardPiece + directions.BR].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
+        cells[currentSelect.indexOfBoardPiece + directions.BR].setAttribute("onclick", "makeMove(9)");
     }
     if (currentSelect.JmpBottomL) {
-        cells[currentSelect.indexOfBoardPiece + 14].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece + 14].setAttribute("onclick", "makeMove(14)");
+        cells[currentSelect.indexOfBoardPiece + directions.JBL].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
+        cells[currentSelect.indexOfBoardPiece + directions.JBL].setAttribute("onclick", "makeMove(14)");
     }
     if (currentSelect.JmpBottomR) {
-        cells[currentSelect.indexOfBoardPiece + 18].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece + 18].setAttribute("onclick", "makeMove(18)");
+        cells[currentSelect.indexOfBoardPiece + directions.JBR].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
+        cells[currentSelect.indexOfBoardPiece + directions.JBL].setAttribute("onclick", "makeMove(18)");
     }
     if (currentSelect.TopR) {
-        cells[currentSelect.indexOfBoardPiece - 7].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece - 7].setAttribute("onclick", "makeMove(-7)");
+        cells[currentSelect.indexOfBoardPiece + directions.TR].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
+        cells[currentSelect.indexOfBoardPiece + directions.TR].setAttribute("onclick", "makeMove(-7)");
     }
     if (currentSelect.TopL) {
-        cells[currentSelect.indexOfBoardPiece - 9].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece - 9].setAttribute("onclick", "makeMove(-9)");
+        cells[currentSelect.indexOfBoardPiece + directions.TL].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
+        cells[currentSelect.indexOfBoardPiece + directions.TL].setAttribute("onclick", "makeMove(-9)");
     }
     if (currentSelect.JmpTopR) {
-        cells[currentSelect.indexOfBoardPiece - 14].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece - 14].setAttribute("onclick", "makeMove(-14)");
+        cells[currentSelect.indexOfBoardPiece + directions.JTR].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
+        cells[currentSelect.indexOfBoardPiece + directions.JTR].setAttribute("onclick", "makeMove(-14)");
     }
     if (currentSelect.JmpTopL) {
-        cells[currentSelect.indexOfBoardPiece - 18].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
-        cells[currentSelect.indexOfBoardPiece - 18].setAttribute("onclick", "makeMove(-18)");
+        cells[currentSelect.indexOfBoardPiece + directions.JTL].innerHTML = `<p class="checking" id="${currentSelect.pieceId}"></p>`
+        cells[currentSelect.indexOfBoardPiece + directions.JTL].setAttribute("onclick", "makeMove(-18)");
     }
 }
 
 function removePreviousChecks(previousSelect){
     if (previousSelect.BottomL) {
-        cells[previousSelect.indexOfBoardPiece + 7].innerHTML = ""
+        cells[previousSelect.indexOfBoardPiece + directions.BL].innerHTML = ""
     }
     if (previousSelect.BottomR) {
-        cells[previousSelect.indexOfBoardPiece + 9].innerHTML = ""
+        cells[previousSelect.indexOfBoardPiece + directions.BR].innerHTML = ""
     }
     if (previousSelect.JmpBottomL) {
-        cells[previousSelect.indexOfBoardPiece + 14].innerHTML = ""
+        cells[previousSelect.indexOfBoardPiece + directions.JBL].innerHTML = ""
     }
     if (previousSelect.JmpBottomR) {
-        cells[previousSelect.indexOfBoardPiece + 18].innerHTML = ""
+        cells[previousSelect.indexOfBoardPiece + directions.JBR].innerHTML = ""
     }
     if (previousSelect.TopR) {
-        cells[previousSelect.indexOfBoardPiece - 7].innerHTML = ""
+        cells[previousSelect.indexOfBoardPiece + directions.TR].innerHTML = ""
     }
     if (previousSelect.TopL) {
-        cells[previousSelect.indexOfBoardPiece - 9].innerHTML = ""
+        cells[previousSelect.indexOfBoardPiece + directions.TL].innerHTML = ""
     }
     if (previousSelect.JmpTopR) {
-        cells[previousSelect.indexOfBoardPiece - 14].innerHTML = ""
+        cells[previousSelect.indexOfBoardPiece + directions.JTR].innerHTML = ""
     }
     if (previousSelect.JmpTopL) {
-        cells[previousSelect.indexOfBoardPiece - 18].innerHTML = ""
+        cells[previousSelect.indexOfBoardPiece + directions.JTL].innerHTML = ""
     }
 }
 /* v when the cell is clicked v */
 
 // makes the move that was clicked
-function makeMove(number) {
+function makeMove(direction) {
     removePreviousChecks(currentSelect) //TODO; here
     document.getElementById(currentSelect.pieceId).remove();
     cells[currentSelect.indexOfBoardPiece].innerHTML = "";
     if (IsItWhite) {
         if (currentSelect.king) {
-            cells[currentSelect.indexOfBoardPiece + number].innerHTML = `<p class="red king" id="${currentSelect.pieceId}"></p>`;
+            cells[currentSelect.indexOfBoardPiece + direction].innerHTML = `<p class="red king" id="${currentSelect.pieceId}"></p>`;
             white_piece = document.querySelectorAll("p");
         } else {
-            cells[currentSelect.indexOfBoardPiece + number].innerHTML = `<p class="red" id="${currentSelect.pieceId}"></p>`;
+            cells[currentSelect.indexOfBoardPiece + direction].innerHTML = `<p class="red" id="${currentSelect.pieceId}"></p>`;
             white_piece = document.querySelectorAll("p");
         }
     } else {
         if (currentSelect.king) {
-            cells[currentSelect.indexOfBoardPiece + number].innerHTML = `<span class="black king" id="${currentSelect.pieceId}"></span>`;
+            cells[currentSelect.indexOfBoardPiece + direction].innerHTML = `<span class="black king" id="${currentSelect.pieceId}"></span>`;
             red_piece = document.querySelectorAll("span");
         } else {
-            cells[currentSelect.indexOfBoardPiece + number].innerHTML = `<span class="black" id="${currentSelect.pieceId}"></span>`;
+            cells[currentSelect.indexOfBoardPiece + direction].innerHTML = `<span class="black" id="${currentSelect.pieceId}"></span>`;
             red_piece = document.querySelectorAll("span");
         }
     }
 
     let indexOfPiece = currentSelect.indexOfBoardPiece
-    if (number === 14 || number === -14 || number === 18 || number === -18) {
-        changeData(indexOfPiece, indexOfPiece + number, indexOfPiece + number / 2);
+    if (direction === 14 || direction === -14 || direction === 18 || direction === -18) {
+        changeData(indexOfPiece, indexOfPiece + direction, indexOfPiece + direction / 2);
     } else {
-        changeData(indexOfPiece, indexOfPiece + number);
+        changeData(indexOfPiece, indexOfPiece + direction);
     }
 }
 
