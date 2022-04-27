@@ -167,3 +167,18 @@ span {
   border: 0;
 }
 
+#hud{
+display:inline-block
+}
+
+.hud-prefix {
+    background: #FFFFFF;
+    margin: 10px 10px 10px 10px;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.hud-main-text {
+    background-color: #FFFFFF;
+    text-align: center;
+}
