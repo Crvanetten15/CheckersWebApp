@@ -88,16 +88,16 @@ td {
     height: 75px;
 }
 
-.red-turn-text {
+.whitetext {
     text-align: center;
-    color: black;
+    color: lightgray;
     font-size: 55px;
 }
 
-.black-turn-text {
+.redtext {
     text-align: center;
     font-size: 55px;
-    color: lightgray;
+    color: red;
 
 }
 
