@@ -78,7 +78,7 @@ function SetCurrentColor() {
     resetBorders();
 }
 
-// removes possible moves from old selected piece (* this is needed because the user might re-select a piece *)
+//for reselecting if mind changes
 function resetSelect() {
     removePreviousChecks(selected);
     for (let i = 0; i < cells.length; i++) {
@@ -86,7 +86,7 @@ function resetSelect() {
     }
 }
 
-// resets borders to default
+//resets border after moves
 function resetBorders() {
     for (let i = 0; i < current_player.length; i++) {
         current_player[i].style.border = "1px solid white";
@@ -95,7 +95,7 @@ function resetBorders() {
     getSelection();
 }
 
-// resets selected piece properties
+//reset obj values of the selected after move
 function removeSelection() {
     selected.pieceId = -1;
     selected.pieceId = -1;
@@ -110,7 +110,7 @@ function removeSelection() {
     selected.JmpTopL = false;
 }
 
-// gets ID and index of the board cell its on
+//finds piece
 function getSelection() {
     console.log(cells);
     console.log(white_piece);
@@ -119,13 +119,13 @@ function getSelection() {
     isPieceKing();
 }
 
-// checks if selected piece is a king
+//finds out if king or nah
 function isPieceKing() {
     selected.king = document.getElementById(selected.pieceId).classList.contains("king");
     getAvailableSpaces();
 }
 
-// gets the moves that the selected piece can make
+//gets available 1 place moves
 function getAvailableSpaces() {
     if (board[selected.pieceIndex + directions.BL] === null && cells[selected.pieceIndex + directions.BL].classList.contains("empty") !== true) {
         selected.BottomL = true;
@@ -142,7 +142,7 @@ function getAvailableSpaces() {
     checkAvailableJumpSpaces();
 }
 
-// gets the moves that the selected piece can jump
+//gets available jump moves
 function checkAvailableJumpSpaces() {
     if (IsItWhite) {
         if (board[selected.pieceIndex + directions.JBL] === null && cells[selected.pieceIndex + directions.JBL].classList.contains("empty") !== true
@@ -170,7 +170,8 @@ function checkAvailableJumpSpaces() {
     TL: -9,
     JTR: -14,
     JTL: -18*/
-    } else {
+    }
+    else {
         if (board[selected.pieceIndex + directions.JBL] === null && cells[selected.pieceIndex + directions.JBL].classList.contains("empty") !== true
             && board[selected.pieceIndex + directions.BL] < 12 && board[selected.pieceIndex + directions.BL] !== null) {
             selected.JmpBottomL = true;
@@ -213,7 +214,7 @@ function MovementRestrictions() {
     }
 }
 
-// gives the piece a green highlight for the user (showing its movable)
+//shows selected piece checks for if a possibly moving piece if not no move
 function selectionIdentifier() {
     if (selected.BottomL || selected.BottomR || selected.JmpBottomL || selected.JmpBottomR
         || selected.TopR || selected.TopL || selected.JmpTopR || selected.JmpTopL) {
@@ -224,7 +225,7 @@ function selectionIdentifier() {
     }
 }
 
-// gives the cells on the board a 'click' based on the possible moves
+//gives available cells moves and adds guide moves
 function allowMove() {
     // setOpenSpaces()
     if (selected.BottomL) {
@@ -261,6 +262,7 @@ function allowMove() {
     }
 }
 
+//removes possible moves guide spaces
 function removePreviousChecks(previousSelect){
     if (previousSelect.BottomL) {
         cells[previousSelect.pieceIndex + directions.BL].innerHTML = ""
@@ -287,35 +289,38 @@ function removePreviousChecks(previousSelect){
         cells[previousSelect.pieceIndex + directions.JTL].innerHTML = ""
     }
 }
-/* v when the cell is clicked v */
 
-// makes the move that was clicked
+//when click is set the ability to move is added allowing this function to move the pieces
 function move(direction) {
-    removePreviousChecks(selected) //TODO; here
-    document.getElementById(selected.pieceId).remove();
+    removePreviousChecks(selected)  //removes the guides
+    document.getElementById(selected.pieceId).remove(); //removes element
     cells[selected.pieceIndex].innerHTML = "";
-    if (IsItWhite) {
-        if (selected.king) {
+    if (IsItWhite) { //white
+        if (selected.king) { //sets piece to same colors (king or nah)
             cells[selected.pieceIndex + direction].innerHTML = `<p class="red king" id="${selected.pieceId}"></p>`;
             white_piece = document.querySelectorAll("p");
-        } else {
+        }
+        else {
             cells[selected.pieceIndex + direction].innerHTML = `<p class="red" id="${selected.pieceId}"></p>`;
             white_piece = document.querySelectorAll("p");
         }
-    } else {
+    }
+    else { //red
         if (selected.king) {
             cells[selected.pieceIndex + direction].innerHTML = `<span class="black king" id="${selected.pieceId}"></span>`;
             red_piece = document.querySelectorAll("span");
-        } else {
+        }
+        else {
             cells[selected.pieceIndex + direction].innerHTML = `<span class="black" id="${selected.pieceId}"></span>`;
             red_piece = document.querySelectorAll("span");
         }
     }
 
     let indexOfPiece = selected.pieceIndex
-    if (direction === 14 || direction === -14 || direction === 18 || direction === -18) {
+    if (direction === 14 || direction === -14 || direction === 18 || direction === -18) { //checks if move was jumping
         updateInfo(indexOfPiece, indexOfPiece + direction, indexOfPiece + direction / 2);
-    } else {
+    }
+    else {
         updateInfo(indexOfPiece, indexOfPiece + direction);
     }
 }
@@ -330,7 +335,7 @@ function updateInfo(pieceIndex, modifiedIndex, removePiece) {
     if (IsItWhite === false && selected.pieceId >= 12 && modifiedIndex <= 7) {
         document.getElementById(selected.pieceId).classList.add("king");
     }
-    if (removePiece) {
+    if (removePiece) { // if null nothing to update besides the new place
         board[removePiece] = null;
         if (IsItWhite && selected.pieceId < 12) {
             cells[removePiece].innerHTML = "";
@@ -353,7 +358,8 @@ function removeEventListeners() {
         for (let i = 0; i < white_piece.length; i++) {
             white_piece[i].removeEventListener("click", SetCurrentColor);
         }
-    } else {
+    }
+    else {
         for (let i = 0; i < red_piece.length; i++) {
             red_piece[i].removeEventListener("click", SetCurrentColor);
         }
@@ -388,7 +394,8 @@ function changePlayer() {
             WhiteText[i].style.color = "lightGrey";
             RedText[i].style.color = "red";
         }
-    } else {
+    }
+    else {
         IsItWhite = true;
         for (let i = 0; i < RedText.length; i++) {
             RedText[i].style.color = "lightGrey";
