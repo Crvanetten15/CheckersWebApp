@@ -1,4 +1,6 @@
 //back end board to handle game
+// noinspection JSIncompatibleTypesComparison
+
 const board = [
     null,   0,      null,   1,      null,   2,      null,   3,
     4,      null,   5,      null,   6,      null,   7,      null,
@@ -119,11 +121,7 @@ function getSelection() {
 
 // checks if selected piece is a king
 function isPieceKing() {
-    if (document.getElementById(selected.pieceId).classList.contains("king")) {
-        selected.king = true;
-    } else {
-        selected.king = false;
-    }
+    selected.king = document.getElementById(selected.pieceId).classList.contains("king");
     getAvailableSpaces();
 }
 
