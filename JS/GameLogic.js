@@ -23,8 +23,12 @@ let white_piece = document.querySelectorAll("p");
 let red_piece = document.querySelectorAll("span");
 const WhiteText = document.querySelectorAll(".whitetext"); //is edit the topic colors to who goes
 const RedText = document.querySelectorAll(".redtext");
+const redscoretext = document.querySelector('#score');
+const whitescoretext = document.querySelector('#score2');
 
 
+let redscore = 0;
+let whitescore = 0;
 let IsItWhite = false;
 let white_Score = 12; //everytime minus add obj or visual or blah blah
 let red_Score = 12;
@@ -338,12 +342,14 @@ function updateInfo(pieceIndex, modifiedIndex, removePiece) {
         board[removePiece] = null;
         if (IsItWhite && selected.pieceId < 12) {
             cells[removePiece].innerHTML = "";
-            red_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+            red_Score-- 
+            update(redscore_points);//variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
 
         }
         if (IsItWhite === false && selected.pieceId >= 12) {
             cells[removePiece].innerHTML = "";
-            white_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+            white_Score-- 
+            update(whitescore_points);//variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
 
         }
     }
@@ -414,4 +420,15 @@ function refreshPage() {
 function goBack() {
     let backbutton = document.querySelector('button');
     backbutton.addEventListener('click', () => {window.history.back();});
+}
+
+const redscore_points = 12;
+const whitescore_points = 12;
+
+update = num => {
+    redscoretext.innerText = red_Score
+}
+
+update2 = num => {
+    whitescoretext.innerText = white_Score
 }
