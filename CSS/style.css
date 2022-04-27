@@ -12,6 +12,11 @@
 body {
     background-image: url('../photos/img.png');
 }
+center {
+    padding-top: 30px;
+    font-family: 'Chango', cursive;
+    font-size: 160px;
+}
 .heading{
     padding-top: 20px;
     font-family: 'Chango', cursive;
