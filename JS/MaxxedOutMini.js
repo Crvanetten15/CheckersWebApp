@@ -23,8 +23,12 @@ let white_piece = document.querySelectorAll("p");
 let red_piece = document.querySelectorAll("span");
 const WhiteText = document.querySelectorAll(".whitetext"); //is edit the topic colors to who goes
 const RedText = document.querySelectorAll(".redtext");
+const redscoretext = document.querySelector('#score');
+const whitescoretext = document.querySelector('#score2');
 
 
+let redscore = 0;
+let whitescore = 0;
 let IsItWhite = false;
 let white_Score = 12; //everytime minus add obj or visual or blah blah
 let red_Score = 12;
@@ -58,7 +62,7 @@ let selected = {
 //Adding listeners to the current teams pieces done each turn
 function setEventListeners() {
     if (IsItWhite) {
-        IsItWhite = false;
+        getAIselection();
 
         for (let i = 0; i < red_piece.length; i++) {
             red_piece[i].addEventListener("click", SetCurrentColor);
@@ -116,9 +120,24 @@ function removeSelection() {
 function getSelection() {
     console.log(cells); //check location and algo
     console.log(white_piece);
+    console.log(event.target.id);
     selected.pieceId = parseInt(event.target.id);
     selected.pieceIndex = getLocation(selected.pieceId);
     isPieceKing();
+    console.log(selected);
+}
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
+function getAIselection(){
+    let selection = getRandomInt(11);
+    selected.pieceId = selection;
+    selected.pieceIndex = getLocation(selected.pieceId);
+    isPieceKing();
+    console.log(selected);
+
+
 }
 
 //finds out if king or nah
@@ -221,8 +240,12 @@ function selectionIdentifier() {
     if (selected.BottomL || selected.BottomR || selected.JmpBottomL || selected.JmpBottomR
         || selected.TopR || selected.TopL || selected.JmpTopR || selected.JmpTopL) {
         document.getElementById(selected.pieceId).style.border = "3px solid green";
+
         allowMove();
     } else {
+        if (IsItWhite){ //TODO;
+            getAIselection();
+        }
         return;
     }
 }
@@ -340,12 +363,14 @@ function updateInfo(pieceIndex, modifiedIndex, removePiece) {
         board[removePiece] = null;
         if (IsItWhite && selected.pieceId < 12) {
             cells[removePiece].innerHTML = "";
-            red_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+            red_Score--
+            update(redscore_points);//variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
 
         }
         if (IsItWhite === false && selected.pieceId >= 12) {
             cells[removePiece].innerHTML = "";
-            white_Score-- //variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+            white_Score--
+            update(whitescore_points);//variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
 
         }
     }
@@ -416,4 +441,15 @@ function refreshPage() {
 function goBack() {
     let backbutton = document.querySelector('button');
     backbutton.addEventListener('click', () => {window.history.back();});
+}
+
+const redscore_points = 12;
+const whitescore_points = 12;
+
+update = num => {
+    redscoretext.innerText = red_Score
+}
+
+update2 = num => {
+    whitescoretext.innerText = white_Score
 }
