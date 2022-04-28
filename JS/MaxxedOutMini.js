@@ -62,11 +62,8 @@ let selected = {
 //Adding listeners to the current teams pieces done each turn
 function setEventListeners() {
     if (IsItWhite) {
+        SetCurrentColor();
         getAIselection();
-
-        for (let i = 0; i < red_piece.length; i++) {
-            red_piece[i].addEventListener("click", SetCurrentColor);
-        }
     } else {
         for (let i = 0; i < red_piece.length; i++) {
             red_piece[i].addEventListener("click", SetCurrentColor);
@@ -99,7 +96,9 @@ function resetBorders() {
         current_player[i].style.border = "1px solid white";
     }
     removeSelection();
-    getSelection();
+    if (IsItWhite == false){
+        getSelection();
+    }
 }
 
 //reset obj values of the selected after move
@@ -131,12 +130,14 @@ function getRandomInt(max) {
 }
 
 function getAIselection(){
-    let selection = getRandomInt(11);
-    selected.pieceId = selection;
-    selected.pieceIndex = getLocation(selected.pieceId);
+    console.log("hello")
+    do{ //check logic here
+        let selection = getRandomInt(11) + getRandomInt(2);
+        if(selection == 12){selection = 11;}
+        selected.pieceId = selection;
+        selected.pieceIndex = getLocation(selected.pieceId);
+    }while (selected.pieceIndex < 0);
     isPieceKing();
-    console.log(selected);
-
 
 }
 
@@ -243,7 +244,10 @@ function selectionIdentifier() {
 
         allowMove();
     } else {
+        resetSelect();
         if (IsItWhite){ //TODO;
+            removeSelection();
+            resetSelect();
             getAIselection();
         }
         return;
@@ -364,13 +368,13 @@ function updateInfo(pieceIndex, modifiedIndex, removePiece) {
         if (IsItWhite && selected.pieceId < 12) {
             cells[removePiece].innerHTML = "";
             red_Score--
-            update(redscore_points);//variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+            //update(redscore_points);//variable for SCORE - - - - - - removeSelection - - - - - - - - - - - ! - - - - - - -
 
         }
         if (IsItWhite === false && selected.pieceId >= 12) {
             cells[removePiece].innerHTML = "";
             white_Score--
-            update(whitescore_points);//variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+            //update(whitescore_points);//variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
 
         }
     }
@@ -381,12 +385,7 @@ function updateInfo(pieceIndex, modifiedIndex, removePiece) {
 
 // removes the 'onClick' event listeners for pieces
 function removeEventListeners() {
-    if (IsItWhite) {
-        for (let i = 0; i < white_piece.length; i++) {
-            white_piece[i].removeEventListener("click", SetCurrentColor);
-        }
-    }
-    else {
+    if (IsItWhite == false){
         for (let i = 0; i < red_piece.length; i++) {
             red_piece[i].removeEventListener("click", SetCurrentColor);
         }
@@ -432,6 +431,7 @@ function changePlayer() {
     setEventListeners();
 }
 
+//GAME START
 setEventListeners();
 
 function refreshPage() {
