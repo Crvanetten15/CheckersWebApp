@@ -59,15 +59,52 @@ let selected = {
     JmpTopR: false, //JmpTopR
     JmpTopL: false //JmpTopL
 }
+let AIdirect = [14, 18, -14, -18, 7, 9, -7, -9];
+
+function getAllIndexes(arr, val) {
+    var indexes = [], i;
+    for(i = 0; i < arr.length; i++)
+        if (arr[i] === val)
+            indexes.push(i);
+    return indexes;
+}
 //Adding listeners to the current teams pieces done each turn
 function setEventListeners() {
     if (IsItWhite) {
         SetCurrentColor();
         getAIselection();
+        //JSON OBJECT ATTEMPT
+        let possible = [selected.JmpBottomL, selected.JmpBottomR, selected.JmpTopR, selected.JmpTopL, selected.BottomL, selected.BottomR, selected.TopR, selected.TopL]
+        var list = getAllIndexes(possible, true)
+        console.log(list);
+        makeSelection(AIdirect[list[0]]);
     } else {
         for (let i = 0; i < red_piece.length; i++) {
             red_piece[i].addEventListener("click", SetCurrentColor);
         }
+    }
+}
+
+function makeSelection(direction){
+    removePreviousChecks(selected)
+    document.getElementById(selected.pieceId).remove();//removes element
+    cells[selected.pieceIndex].innerHTML = "";
+    //white
+    if (selected.king) { //sets piece to same colors (king or nah)
+        cells[selected.pieceIndex + direction].innerHTML = `<p class="white king" id="${selected.pieceId}"></p>`;
+        white_piece = document.querySelectorAll("p");
+    }
+    else {
+        cells[selected.pieceIndex + direction].innerHTML = `<p class="white" id="${selected.pieceId}"></p>`;
+        white_piece = document.querySelectorAll("p");
+    }
+
+    let indexOfPiece = selected.pieceIndex
+    if (direction === 14 || direction === -14 || direction === 18 || direction === -18) { //checks if move was jumping
+        updateInfo(indexOfPiece, indexOfPiece + direction, indexOfPiece + direction / 2);
+    }
+    else {
+        updateInfo(indexOfPiece, indexOfPiece + direction);
     }
 }
 
