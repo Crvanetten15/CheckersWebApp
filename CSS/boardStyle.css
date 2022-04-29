@@ -170,6 +170,9 @@ span {
 #hud{
 display:inline-block
 }
+.hud-item {
+    background-color: #f8f8f8;
+}
 
 .hud-prefix {
     background: #FFFFFF;

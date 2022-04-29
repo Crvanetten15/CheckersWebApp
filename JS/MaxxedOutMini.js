@@ -419,13 +419,13 @@ function updateInfo(pieceIndex, modifiedIndex, removePiece) {
         if (IsItWhite && selected.pieceId < 12) {
             cells[removePiece].innerHTML = "";
             red_Score--
-            //update(redscore_points);//variable for SCORE - - - - - - removeSelection - - - - - - - - - - - ! - - - - - - -
+            redscoretext.innerText = red_Score//variable for SCORE - - - - - - removeSelection - - - - - - - - - - - ! - - - - - - -
 
         }
         if (IsItWhite === false && selected.pieceId >= 12) {
             cells[removePiece].innerHTML = "";
             white_Score--
-            //update(whitescore_points);//variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
+            whitescoretext.innerText = white_Score//variable for SCORE - - - - - - - - - - - - - - - - - - ! - - - - - - -
 
         }
     }
@@ -491,18 +491,16 @@ function refreshPage() {
     location.reload();
 }
 
-function goBack() {
-    let backbutton = document.querySelector('button');
-    backbutton.addEventListener('click', () => {window.history.back();});
-}
+//
+// const redscore_points = 12;
+// const whitescore_points = 12;
 
-const redscore_points = 12;
-const whitescore_points = 12;
 
-update = num => {
-    redscoretext.innerText = red_Score
-}
 
-update2 = num => {
-    whitescoretext.innerText = white_Score
-}
+// update = num => {
+//     redscoretext.innerText = red_Score
+// }
+//
+// update2 = num => {
+//     whitescoretext.innerText = white_Score
+// }
