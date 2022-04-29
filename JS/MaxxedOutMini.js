@@ -71,14 +71,28 @@ function getAllIndexes(arr, val) {
 //Adding listeners to the current teams pieces done each turn
 function setEventListeners() {
     if (IsItWhite) {
+        if (white_Score === 0){
+            return;
+        }
+        console.log(getRandomInt(1))
         SetCurrentColor();
         getAIselection();
         //JSON OBJECT ATTEMPT
         let possible = [selected.JmpBottomL, selected.JmpBottomR, selected.JmpTopR, selected.JmpTopL, selected.BottomL, selected.BottomR, selected.TopR, selected.TopL]
         var list = getAllIndexes(possible, true)
         console.log(list);
-        makeSelection(AIdirect[list[0]]);
-    } else {
+        if(list.indexOf(0) >= 0 | list.indexOf(1) >= 0 | list.indexOf(2) >= 0 | list.indexOf(3) >= 0){
+            var checker = -1;
+            while(checker < 0){
+                checker = list.indexOf(getRandomInt(4));
+            }
+            makeSelection(AIdirect[list[checker]]);
+        }
+        else {
+            makeSelection(AIdirect[list[getRandomInt(list.length)]]);
+        }
+        }
+        else {
         for (let i = 0; i < red_piece.length; i++) {
             red_piece[i].addEventListener("click", SetCurrentColor);
         }
@@ -437,6 +451,7 @@ function Win() {
             WhiteText[i].style.color = "white";
             RedText[i].style.display = "none";
             WhiteText[i].textContent = "WHITE WINS!";
+            console.log("WHITE")
         }
     }
     else if (white_Score === 0) {
@@ -444,6 +459,7 @@ function Win() {
             RedText[i].style.color = "red";
             WhiteText[i].style.display = "none";
             RedText[i].textContent = "RED WINS!";
+            console.log("RED")
         }
     }
     changePlayer();
