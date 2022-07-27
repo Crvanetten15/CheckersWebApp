@@ -7,7 +7,7 @@
 
 
 ## Opening Program
-Since our checkers is a web based app, all you have to do is visit my Github Pages [link] (https://crvanetten15.github.io/CheckersWebApp/) to test it out!
+Since our checkers is a web based app, all you have to do is visit my Github Pages [link](https://crvanetten15.github.io/CheckersWebApp/) to test it out!
 
 ## Run Game
 First select whether you would like to play with a friend or solo, against our computer player.
