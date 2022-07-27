@@ -1,17 +1,23 @@
-<p align="center">
-</p>
-
-# GOAL
-The purpose of this project was to create a checkers game. With the classic game of checkers involving two separate players playing on an 8x8 board we set out to create a virtual version. 
-
-# Implementation
-Our project was created with HTML, CSS, and JavaScript, allowing the user to play against another player or against a computer. HTML served as the basis of the board, and piece to help give the Web application a framework. Then CSS was added to help with our visual changes, and JavaScript handled the background and logic of the game. With three team members working on this project, used the GitHub version control platform to ensure that changes were going to be tracked and any edits can be managed, in that manner we were able to revert changes to their previous state and see at what point a change was made that broke the project so that we can fix it. This also allowed for better code reviews and enhanced teamwork. One advantage of using GitHub is the built-in testing, because of that any commits that were pushed were automatically tested so that we know right away if a commit will break the project.
-
-## Get Started
-
-
-## What is this Github repository? 💻
-
-
-## Related Repositories and Resources
-
+# User Manual for G12 Checkers
+# Creators : Connor Van Etten | Esmeralda Xhyliu | Tytionna Williams
+## Opening Program
+    -Once files are downloaded to your computer, the game can be accessed through the index.html file located in our
+    HTML folder. 
+## Run Game
+    -First select whether you would like to play with a friend or solo, against our computer player.
+    -If Player versus Player is selected on the main menu, you will be redirected to a page with a
+    checkers board, a scoreboard and indications of whos turn it as a header. If Player versus
+    Computer is selected the page you are directed to is identical but the logic of gameplay is much different.
+## PVP MODE
+    -If PVP mode is selected both you and your friend (or enemy) will take turn choosing a piece and 
+    then selecting a open space from the highlighted locations. Only possible moves are highlighted when 
+    a piece is selected and no piece on the other team will move if it is not their turn. This limits 
+    confusion when playing.
+## PVC MODE
+    -If PVC mode is selected you are directed to face our computer challenger. You by default 
+    have the starting move. when a piece is selected you have the option to click on the highlighted squares
+    to place your cleckers piece. As soon as you place your piece our AI scans for it's best move and will play you back.
+    This process will continue until the game is completed.
+## Rules
+    -Our last tab on our main menu includes the rules to checkers. IF you do forget please refer 
+    to this page to make sure you have a good understanding of the game. 
